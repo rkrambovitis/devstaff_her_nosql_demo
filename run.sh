@@ -6,7 +6,7 @@ case $1 in
 		./dsp.py
 		;;
 	get)
-		./dsg.py
+		./dsg.py $2
 		;;
 	sh|bash|shell)
 		/bin/sh

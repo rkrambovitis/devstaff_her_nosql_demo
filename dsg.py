@@ -19,6 +19,13 @@ hosts=envhosts.split(",")
 cluster = Cluster(hosts, auth_provider=auth_provider)
 session = cluster.connect('demoks')
 
-q = SimpleStatement("SELECT max(number), value FROM numbers", consistency_level=ConsistencyLevel.ONE)
-r = session.execute(q)
+if len(sys.argv) > 1:
+   num=int(sys.argv[1])
+else:
+   q = SimpleStatement("SELECT MAX(number) FROM numbers", consistency_level=ConsistencyLevel.ONE)
+   r = session.execute(q)
+   num = r[0][0]
+
+q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.ONE)
+r = session.execute(q, [num])
 print r[0][0], r[0][1]

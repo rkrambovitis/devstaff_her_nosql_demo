@@ -25,15 +25,17 @@ number=q[0][0]
 
 query = session.prepare("INSERT INTO numbers (number, value) VALUES (?, ?)")
 query.consistency_level = ConsistencyLevel.QUORUM
-while True:
-   number += 1
-   try:
-      session.execute_async(query, [number, "foobar"])
-      if number%1000 == 0:
-         print number
-   except KeyboardInterrupt:
-      print "Exiting, Please wait... "
-      session.execute(query, [number, "foobar"])
-      print number
-      sys.exit()
 
+while True:
+   with open('./input_file') as f:
+      for line in f:
+         number += 1
+         try:
+            session.execute_async(query, [number, line])
+            if number%1000 == 0:
+               print number
+         except KeyboardInterrupt:
+            print "Exiting, Please wait... "
+            session.execute(query, [number, line])
+            print number
+            sys.exit()
