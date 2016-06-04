@@ -12,7 +12,5 @@ RUN rm -rf /var/cache/apk/*
 RUN mkdir -p /demo
 COPY dsp.py dsg.py run.sh /demo/
 WORKDIR /demo
-COPY input_file .
 
-#CMD ["/env/bin/python", "main.py"]
 ENTRYPOINT ["/demo/run.sh"]
