@@ -5,6 +5,7 @@
 docker build -t dsgp .
 docker run -ti -e CASSANDRA_PASS='something' dsgp put
 docker run -ti -e CASSANDRA_PASS='something' dsgp get
+docker run -ti -e CASSANDRA_PASS='something' dsgp sh
 ```
 
 ## HOWTO ##

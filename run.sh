@@ -8,6 +8,9 @@ case $1 in
 	get)
 		./dsg.py
 		;;
+	sh|bash|shell)
+		/bin/sh
+		;;
 	*)
 		echo "Usage: $0 <put|get>"
 		;;
