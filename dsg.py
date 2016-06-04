@@ -29,3 +29,7 @@ else:
 q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.ONE)
 r = session.execute(q, [num])
 print r[0][0], r[0][1]
+
+#r = session.execute("SELECT number, value FROM numbers")
+#for row in r:
+#   print row[0], row[1]

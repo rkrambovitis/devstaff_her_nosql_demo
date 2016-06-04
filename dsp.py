@@ -16,9 +16,10 @@ hosts=envhosts.split(",")
 
 cluster = Cluster(hosts, auth_provider=auth_provider)
 session = cluster.connect('demoks')
+number=0
 
-#session.execute("CREATE TABLE numbers (number varint PRIMARY KEY, value varchar)")
 #session.execute("DROP TABLE numbers")
+#session.execute("CREATE TABLE numbers (number varint PRIMARY KEY, value varchar)")
 
 q=session.execute("SELECT MAX(number) FROM numbers")
 number=q[0][0]
@@ -31,9 +32,11 @@ while True:
       for line in f:
          number += 1
          try:
-            session.execute_async(query, [number, line])
             if number%1000 == 0:
+               session.execute(query, [number, line])
                print number
+	    else:
+               session.execute_async(query, [number, line])
          except KeyboardInterrupt:
             print "Exiting, Please wait... "
             session.execute(query, [number, line])
