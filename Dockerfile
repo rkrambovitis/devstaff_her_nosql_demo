@@ -7,8 +7,7 @@ RUN apk add --update \
     cython \
     build-base 
 RUN pip install cassandra-driver
-#  && pip install virtualenv \
-#  && rm -rf /var/cache/apk/*
+RUN rm -rf /var/cache/apk/*
 
 RUN mkdir -p /demo
 COPY dsp.py dsg.py run.sh /demo/

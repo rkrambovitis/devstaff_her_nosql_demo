@@ -2,13 +2,12 @@
 
 ## Docker HOWTO ##
 ```
-docker build -t dsgp .
-docker run -ti -e CASSANDRA_PASS='something' dsgp put
-docker run -ti -e CASSANDRA_PASS='something' dsgp get
-docker run -ti -e CASSANDRA_PASS='something' dsgp sh
+docker run -ti -e CASSANDRA_PASS='something' rkrambovitis/devstaff-cassandra-demo put
+docker run -ti -e CASSANDRA_PASS='something' rkrambovitis/devstaff-cassandra-demo get
+docker run -ti -e CASSANDRA_PASS='something' rkrambovitis/devstaff-cassandra-demo sh
 ```
 
-## HOWTO ##
+## Manual HOWTO ##
 ```
 pip install cassandra-driver
 export CASSANDRA_PASS=whatever
