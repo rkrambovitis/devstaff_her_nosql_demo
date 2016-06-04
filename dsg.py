@@ -13,7 +13,10 @@ else:
    print "Please set CASSANDRA_PASS"
    sys.exit()
 
-cluster = Cluster(['192.168.10.235'], auth_provider=auth_provider)
+envhosts=os.getenv('CASSANDRA_HOSTS', "localhost")
+hosts=envhosts.split(",")
+
+cluster = Cluster(hosts, auth_provider=auth_provider)
 session = cluster.connect('demoks')
 
 q = SimpleStatement("SELECT max(number), value FROM numbers", consistency_level=ConsistencyLevel.ONE)

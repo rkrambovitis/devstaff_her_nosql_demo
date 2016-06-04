@@ -11,7 +11,10 @@ else:
    print "Please set CASSANDRA_PASS"
    sys.exit
 
-cluster = Cluster(['192.168.10.235'], auth_provider=auth_provider)
+envhosts=os.getenv('CASSANDRA_HOSTS', "localhost")
+hosts=envhosts.split(",")
+
+cluster = Cluster(hosts, auth_provider=auth_provider)
 session = cluster.connect('demoks')
 
 #session.execute("CREATE TABLE numbers (number varint PRIMARY KEY, value varchar)")
