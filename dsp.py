@@ -41,10 +41,12 @@ while number < end:
    line = md5.new(str(number)).hexdigest()
    try:
       if number%1000 == 0:
-         session.execute(query, [number, line])
          print number
-      else:
+      try:
          session.execute_async(query, [number, line])
+      except:
+	 session.execute(query, [number, line])
+
    except KeyboardInterrupt:
       print "Exiting, Please wait... "
       session.execute(query, [number, line])
