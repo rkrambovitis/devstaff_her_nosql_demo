@@ -3,7 +3,7 @@ cd /demo
 
 case $1 in
 	put)
-		./dsp.py
+		./dsp.py $2 $3
 		;;
 	get)
 		./dsg.py $2

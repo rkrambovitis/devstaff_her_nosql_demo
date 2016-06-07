@@ -22,14 +22,22 @@ number=0
 #session.execute("DROP TABLE numbers")
 #session.execute("CREATE TABLE numbers (number varint PRIMARY KEY, value varchar)")
 
-q=session.execute("SELECT MAX(number) FROM numbers")
-number=q[0][0]
+#q=session.execute("SELECT MAX(number) FROM numbers")
+#number=q[0][0]
+
+if len(sys.argv) > 1:
+   number=int(sys.argv[1])
+
+if len(sys.argv) > 2:
+   end = int(sys.argv[2])
+else:
+   end = 999999999
+
 
 query = session.prepare("INSERT INTO numbers (number, value) VALUES (?, ?)")
 query.consistency_level = ConsistencyLevel.QUORUM
 
-while True:
-   number += 1
+while number < end:
    line = md5.new(str(number)).hexdigest()
    try:
       if number%1000 == 0:
@@ -42,4 +50,5 @@ while True:
       session.execute(query, [number, line])
       print number
       sys.exit()
-
+   number += 1
+session.execute(query, [number, line])

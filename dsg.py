@@ -6,6 +6,7 @@ from cassandra.query import SimpleStatement
 from cassandra.policies import RetryPolicy
 import os
 import sys
+import md5
 
 if "CASSANDRA_PASS" in os.environ:
    auth_provider = PlainTextAuthProvider(username='devstaff', password=os.environ["CASSANDRA_PASS"])
@@ -28,7 +29,8 @@ else:
 
 q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.ONE)
 r = session.execute(q, [num])
-print r[0][0], r[0][1]
+print "Cassandra ", r[0][0], r[0][1]
+print "Calculate ", r[0][0], md5.new(str(r[0][0])).hexdigest()
 
 #r = session.execute("SELECT number, value FROM numbers")
 #for row in r:
