@@ -30,7 +30,7 @@ rangeMin=int(sys.argv[1])
 rangeMax=int(sys.argv[2])
 sampleCnt=int(sys.argv[3])
 
-q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.ONE)
+q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.LOCAL_ONE)
 
 results = []
 for x in range(0, sampleCnt):

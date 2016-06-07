@@ -35,7 +35,7 @@ else:
 
 
 query = session.prepare("INSERT INTO numbers (number, value) VALUES (?, ?)")
-query.consistency_level = ConsistencyLevel.QUORUM
+query.consistency_level = ConsistencyLevel.ONE
 
 while number < end:
    line = md5.new(str(number)).hexdigest()
