@@ -7,6 +7,7 @@ from cassandra.policies import RetryPolicy
 import os
 import sys
 import md5
+import random
 
 if "CASSANDRA_PASS" in os.environ:
    auth_provider = PlainTextAuthProvider(username='devstaff', password=os.environ["CASSANDRA_PASS"])
@@ -20,17 +21,23 @@ hosts=envhosts.split(",")
 cluster = Cluster(hosts, auth_provider=auth_provider)
 session = cluster.connect('demoks')
 
-if len(sys.argv) > 1:
-   num=int(sys.argv[1])
-else:
-   q = SimpleStatement("SELECT MAX(number) FROM numbers", consistency_level=ConsistencyLevel.ONE)
-   r = session.execute(q)
-   num = r[0][0]
+num=1
+if len(sys.argv) < 4:
+   print "Usage: %s <rangeMin> <rangeMax> <sampleCnt>" % sys.argv[0]
+   sys.exit()
+
+rangeMin=int(sys.argv[1])
+rangeMax=int(sys.argv[2])
+sampleCnt=int(sys.argv[3])
 
 q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.ONE)
-r = session.execute(q, [num])
-print "Cassandra ", r[0][0], r[0][1]
-print "Calculate ", r[0][0], md5.new(str(r[0][0])).hexdigest()
+
+for x in range(0, sampleCnt):
+   num = random.randint(rangeMin, rangeMax)
+   r = session.execute(q, [num])
+   print "Cassandra ", r[0][0], r[0][1]
+   print "Calculate ", r[0][0], md5.new(str(r[0][0])).hexdigest()
+   print
 
 #r = session.execute("SELECT number, value FROM numbers")
 #for row in r:

@@ -5,12 +5,12 @@
 docker run -ti \
 -e CASSANDRA_HOSTS="localhost,someother.host" \
 -e CASSANDRA_PASS='something' \
-rkrambovitis/devstaff-cassandra-demo put
+rkrambovitis/devstaff-cassandra-demo put <startNum> <endNum>
 
 docker run -ti \
 -e CASSANDRA_HOSTS="localhost,someother.host" \
 -e CASSANDRA_PASS='something' \
-rkrambovitis/devstaff-cassandra-demo get 123
+rkrambovitis/devstaff-cassandra-demo get <rangeMin> <rangeMan> <sampleCnt>
 
 docker run -ti rkrambovitis/devstaff-cassandra-demo sh
 ```
