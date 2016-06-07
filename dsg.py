@@ -32,9 +32,13 @@ sampleCnt=int(sys.argv[3])
 
 q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.ONE)
 
+results = []
 for x in range(0, sampleCnt):
    num = random.randint(rangeMin, rangeMax)
-   r = session.execute(q, [num])
+   results.append(session.execute_async(q, [num]))
+
+for res in results:
+   r = res.result()
    print "Cassandra ", r[0][0], r[0][1]
    print "Calculate ", r[0][0], md5.new(str(r[0][0])).hexdigest()
    print
