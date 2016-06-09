@@ -9,16 +9,17 @@ import sys
 import md5
 import random
 
-if "CASSANDRA_PASS" in os.environ:
-   auth_provider = PlainTextAuthProvider(username='devstaff', password=os.environ["CASSANDRA_PASS"])
-else:
-   print "Please set CASSANDRA_PASS"
-   sys.exit()
+#if "CASSANDRA_PASS" in os.environ:
+#   auth_provider = PlainTextAuthProvider(username='devstaff', password=os.environ["CASSANDRA_PASS"])
+#else:
+#   print "Please set CASSANDRA_PASS"
+#   sys.exit()
 
 envhosts=os.getenv('CASSANDRA_HOSTS', "localhost")
 hosts=envhosts.split(",")
 
-cluster = Cluster(hosts, auth_provider=auth_provider)
+#cluster = Cluster(hosts, auth_provider=auth_provider)
+cluster = Cluster(hosts)
 session = cluster.connect('demoks')
 
 num=1
@@ -30,7 +31,7 @@ rangeMin=int(sys.argv[1])
 rangeMax=int(sys.argv[2])
 sampleCnt=int(sys.argv[3])
 
-q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.LOCAL_ONE)
+q = SimpleStatement("SELECT number, value FROM numbers WHERE number = %s", consistency_level=ConsistencyLevel.ONE)
 
 results = []
 for x in range(0, sampleCnt):

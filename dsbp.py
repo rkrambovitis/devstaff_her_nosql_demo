@@ -2,6 +2,7 @@
 from cassandra.cluster import Cluster
 from cassandra.auth import PlainTextAuthProvider
 from cassandra import ConsistencyLevel
+from cassandra.query import BatchStatement
 import os
 import sys
 import md5
@@ -41,13 +42,13 @@ query.consistency_level = ConsistencyLevel.ONE
 while number < end:
    foo = md5.new(str(number)).hexdigest()
    line = (foo +" "+ foo + " " + foo + " " + foo + " " + foo)
+   batch = BatchStatement(consistency_level=ConsistencyLevel.ONE)
    try:
+      batch.add(query, (number, line))
       if number%1000 == 0:
+         session.execute(batch)
          print number
-      try:
-         session.execute_async(query, [number, line])
-      except:
-	 session.execute(query, [number, line])
+         batch = BatchStatement(consistency_level=ConsistencyLevel.ONE)
 
    except KeyboardInterrupt:
       print "Exiting, Please wait... "
